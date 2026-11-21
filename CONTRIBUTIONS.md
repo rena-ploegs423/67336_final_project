@@ -2,8 +2,9 @@
 
 **Team name:**
 
-**Members:**
 
+**Members:**
+Eu-Rway, Serena, Zdenek
 Update this log as you work (not all at once before the deadline). Non-code work counts too: data cleaning, design, wireframing, writing, and research all belong here. Delete the example rows before your first entry.
 
 | Date | Member | Contribution | Related commit/PR (if any) |
