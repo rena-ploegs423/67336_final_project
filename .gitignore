@@ -1,0 +1,6 @@
+node_modules/
+dist/
+src/.observablehq/
+.DS_Store
+//large dataset, so ignored
+data/nsduh_2024_puf_raw.csv 

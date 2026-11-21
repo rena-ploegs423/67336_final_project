@@ -9,6 +9,8 @@ Update this log as you work (not all at once before the deadline). Non-code work
 
 | Date | Member | Contribution | Related commit/PR (if any) |
 | --- | --- | --- | --- |
-| Nov 2 | Jordan | Cleaned eviction dataset, built data loader | #3 |
-| Nov 4 | Sam | Built choropleth map component | #4 |
-| Nov 5 | Both | Drafted interim report together | — |
+| Nov 20 | Serena | Found data files and codebooks. | --- |
+| Nov 21 | Serena | Built NSDUH data loader and conducted data quality checks. | --- |
+| Nov 21 | Serena | Cleaned, transformed, and validated NSDUH data for adult focused analysis. | --- |
+
+
