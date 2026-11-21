@@ -5,7 +5,7 @@ toc: false
 
 # U.S. drug overdose deaths, 2015–2026
 
-Predicted 12-month-ending totals, CDC NCHS (VSRR provisional counts). The most recent 12 months are dashed because those figures are provisional and are likely to change.
+Reported 12-month-ending totals, CDC NCHS (VSRR provisional counts). The most recent 12 months are dashed because those figures are provisional and are likely to change.
 
 ```js
 const data = (await FileAttachment("data/us-overdose-deaths.json").json())
@@ -80,8 +80,7 @@ function overdoseChart(width) {
         y: "deaths",
         title: (d) => [
           `12 months ending ${fmtMonthLocal(d.date)}`,
-          `Predicted deaths: ${fmtNum(d.deaths)}`,
-          `Reported so far: ${fmtNum(d.reported)}`,
+          `Deaths: ${fmtNum(d.deaths)}`,
           d.date >= provisionalStart ? "Provisional: likely to be revised" : null
         ].filter(Boolean).join("\n")
       }))
@@ -90,15 +89,15 @@ function overdoseChart(width) {
 }
 ```
 
-<small class="muted">* Data from ${fmtMonthLocal(provisionalStart)} onward is provisional. Predicted values adjust reported counts for reporting delays. Source: CDC National Center for Health Statistics, Vital Statistics Rapid Release, Provisional Drug Overdose Death Counts.</small>
+<small class="muted">* Data from ${fmtMonthLocal(provisionalStart)} onward is provisional and may be revised as more death records are reported. Source: CDC National Center for Health Statistics, Vital Statistics Rapid Release, Provisional Drug Overdose Death Counts.</small>
 
 <details>
 <summary>View data table</summary>
 
 ```js
 Inputs.table(data.slice().reverse(), {
-  columns: ["date", "deaths", "reported", "pctPending"],
-  header: {date: "12 months ending", deaths: "Predicted deaths", reported: "Reported deaths", pctPending: "% pending investigation"},
+  columns: ["date", "deaths", "pctPending"],
+  header: {date: "12 months ending", deaths: "Deaths", pctPending: "% pending investigation"},
   format: {date: fmtMonthLocal, pctPending: (d) => d.toFixed(2) + "%"},
   rows: 12
 })

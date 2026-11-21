@@ -15,16 +15,14 @@ const text = readFileSync("data/VSRR_Provisional_Drug_Overdose_Death_Counts.csv"
 const rows = csvParse(text)
   .filter((d) => d.State === "US" && d.Indicator === "Number of Drug Overdose Deaths")
   .map((d) => {
-    const reported = toNumber(d["Data Value"]);
-    const predicted = toNumber(d["Predicted Value"]);
     return {
       date: `${d.Year}-${String(MONTHS.indexOf(d.Month) + 1).padStart(2, "0")}-01`,
-      // Predicted values adjust for reporting delays; fall back to reported if missing.
-      deaths: Number.isFinite(predicted) ? predicted : reported,
-      reported: Number.isFinite(reported) ? reported : null,
+      // Reported 12-month-ending death count (CDC "Data Value")
+      deaths: toNumber(d["Data Value"]),
       pctPending: toNumber(d["Percent Pending Investigation"])
     };
   })
+  .filter((d) => Number.isFinite(d.deaths))
   .sort((a, b) => (a.date < b.date ? -1 : 1));
 
 process.stdout.write(JSON.stringify(rows));
