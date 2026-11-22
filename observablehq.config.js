@@ -3,18 +3,13 @@ export default {
   // The app’s title; used in the sidebar and webpage titles.
   title: "Final Project",
 
-  // The pages and sections in the sidebar. If you don’t specify this option,
-  // all pages will be listed in alphabetical order. Listing pages explicitly
-  // lets you organize them into sections and have unlisted pages.
-  // pages: [
-  //   {
-  //     name: "Examples",
-  //     pages: [
-  //       {name: "Dashboard", path: "/example-dashboard"},
-  //       {name: "Report", path: "/example-report"}
-  //     ]
-  //   }
-  // ],
+  // The pages and sections in the sidebar. 
+  pages: [
+    {name: "Overdose Deaths", path: "/d0-overdose-trend"},
+    {name: "Mental Illness & Drug Use", path: "/d1-mental-health-and-drug-use"},
+    {name: "The Treatment Gap", path: "/d2-treatment-gap"},
+    {name: "Geographic Treatment Gaps", path: "/d3-state-treatment-gaps"}
+  ],
 
   // Content to add to the head of the page, e.g. for a favicon:
   head: '<link rel="icon" href="observable.png" type="image/png" sizes="32x32">',
