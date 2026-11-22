@@ -4,3 +4,4 @@ src/.observablehq/
 .DS_Store
 //large dataset, so ignored
 data/nsduh_2025_raw.csv
+src/data/raw/NSUMHSS_2024_PUF_CSV.csv
