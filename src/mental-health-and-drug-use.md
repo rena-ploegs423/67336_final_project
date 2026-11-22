@@ -163,7 +163,7 @@ const narrative = html`
 `;
 ```
 
-## Chapter 1: The Scale
+## Treatment Gap in the U.S.
 
 <div class="scrolly">
   ${narrative}
