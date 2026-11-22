@@ -10,7 +10,10 @@ Update this log as you work (not all at once before the deadline). Non-code work
 | Date | Member | Contribution | Related commit/PR (if any) |
 | --- | --- | --- | --- |
 | Nov 20 | Serena | Found data files and codebooks. | --- |
+| Nov 21 | All | Team meeting to review visualizations and make plan for Phase II report. | --- |
 | Nov 21 | Serena | Built NSDUH data loader and conducted data quality checks. | --- |
 | Nov 21 | Serena | Cleaned, transformed, and validated NSDUH data for adult focused analysis. | --- |
+| Nov 22 | All | Team meeting to discuss visualization and delegate work. | --- |
+|  | --- | --- | --- |
 
 
