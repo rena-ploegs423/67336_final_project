@@ -6,7 +6,6 @@ export default {
   // The pages and sections in the sidebar. 
   pages: [
     {name: "Overdose Deaths", path: "/d0-overdose-trend"},
-    {name: "Overdose Deaths Option 2", path: "/d0-v2-overdose-trend"},
     {name: "Mental Illness & Drug Use", path: "/d1-mental-health-and-drug-use"},
     {name: "The Treatment Gap", path: "/d2-treatment-gap"},
     {name: "Geographic Treatment Gaps", path: "/d3-state-treatment-gaps"}
