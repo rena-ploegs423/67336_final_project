@@ -87,7 +87,7 @@ function overdoseChart(width) {
 
 <small class="muted">* Data from ${fmtMonthLocal(provisionalStart)} onward is provisional and may be revised as more death records are reported. Source: CDC National Center for Health Statistics, Vital Statistics Rapid Release, Provisional Drug Overdose Death Counts.</small>
 
-To show how serious drug-related harm is in the U.S., our dashboard opens with a line chart of national overdose deaths from 2015 to 2026. For visual encoding, years are on the x-axis and deaths on the y-axis. Position is the channel viewers judge most accurately, and a line shows change over time at a glance. Because deaths are ratio data with a true zero, the y-axis starts at zero so changes are not overstated. Provisional figures from July 2025 onward are drawn as a dashed line on a shaded background. To keep the data-ink ratio high and avoid chart junk, we use a single hue, faint gridlines, no legend, and no decorative effects, and exact values appear in a hover tooltip.
+To show how serious drug-related harm is in the U.S., our dashboard starts with a line chart of national overdose deaths from 2015 to 2026. For visual encoding, years are on the x-axis and deaths on the y-axis. Position is the channel viewers judge most accurately, and a line shows change over time at a glance. Because deaths are ratio data with a true zero, the y-axis starts at zero so changes are not overstated. Provisional figures from July 2025 onward are drawn as a dashed line on a shaded background. To keep the data-ink ratio high and avoid chart junk, we use a single hue, faint gridlines, no legend, and no decorative effects, and exact values appear in a hover tooltip.
 
 <details>
 <summary>View data table</summary>
