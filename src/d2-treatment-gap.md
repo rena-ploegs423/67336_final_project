@@ -1,126 +1,401 @@
 ---
-title: Treatment Gap in the U.S.
+title: The Treatment Gap
 toc: false
+theme: [air, wide]
 ---
 
-```js
-// Load data
-const data = await FileAttachment("data/nsduh_2025_cleaned.csv").csv({typed: true});
-```
+# The Treatment Gap
 
 ```js
-// Color scheme
+const data = await FileAttachment("data/nsduh_2025_cleaned.csv").csv({typed: true});
+
 const colors = {
   mental: "#2468A2",
   drug: "#E58A9D",
   both: "#754387",
+  neither: "#777D85",
   neutral: "#D4D6D8",
   text: "#222222"
 };
 ```
 
 <style>
-  .scrolly {
+  #observablehq-main {
+    max-width: none !important;
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: clamp(24px, 3vw, 64px);
+    padding-right: clamp(24px, 3vw, 64px);
+  }
+
+  /* FULL-WIDTH INTRODUCTION */
+
+  .treatment-intro {
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 35px 0 65px;
+    width: 100%;
+  }
+
+  .treatment-intro-heading {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: clamp(30px, 3vw, 46px);
+    font-weight: 650;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    max-width: 1000px;
+    margin: 0 0 14px;
+  }
+
+  .treatment-intro-description {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: clamp(16px, 1.25vw, 19px);
+    line-height: 1.5;
+    max-width: 800px;
+    margin: 0 0 50px;
+    color: var(--theme-foreground-muted);
+  }
+
+  .treatment-intro .treatment-visual {
+    width: 100%;
+  }
+
+  .treatment-intro .treatment-legend {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* SCROLLING SECTIONS */
+
+  .treatment-scrolly {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    grid-template-columns: minmax(0, 0.65fr) minmax(0, 1.35fr);
+    column-gap: clamp(28px, 3vw, 60px);
     align-items: start;
+    width: 100%;
+    margin-top: 20px;
   }
 
-  .step {
-    min-height: 80vh;
+  .treatment-story {
+    min-width: 0;
+  }
+
+  .treatment-step {
+    min-height: 82vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    box-sizing: border-box;
+    padding: 30px 0;
   }
 
-  .sticky-chart {
-    position: sticky;
-    top: 20vh;
-    min-height: 60vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  .treatment-step h2 {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: clamp(25px, 2.2vw, 36px);
+    font-weight: 650;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    margin: 0 0 14px;
+    max-width: 480px;
   }
 
-  .statistic {
-    font-size: clamp(48px, 6vw, 80px);
+  .treatment-step p {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: clamp(16px, 1.2vw, 18px);
+    line-height: 1.55;
+    margin: 0;
+    max-width: 430px;
+  }
+
+  .treatment-stat {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: clamp(58px, 5vw, 88px);
     font-weight: 700;
     line-height: 1;
-    margin-bottom: 16px;
+    letter-spacing: -0.035em;
+    margin-bottom: 18px;
   }
 
-  .chart-caption {
+  .treatment-sticky {
+    position: sticky;
+    top: 10vh;
+    height: 80vh;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  /* CHART */
+
+  .treatment-visual {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .treatment-context {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .treatment-visual svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: none;
+  }
+
+  .treatment-axis {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+    color: var(--theme-foreground-muted);
+  }
+
+  .treatment-legend {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 24px;
+    row-gap: 15px;
+    margin-top: 30px;
+  }
+
+  .treatment-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .treatment-swatch {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    flex: 0 0 14px;
+  }
+
+  .treatment-note {
+    margin-top: 22px;
+    color: var(--theme-foreground-muted);
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.55;
+    max-width: 700px;
+  }
+
+  .treatment-bar-label {
+    fill: white;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    pointer-events: none;
+  }
+
+  .treatment-source {
+    margin-top: 35px;
     font-size: 13px;
-    line-height: 1.5;
-    opacity: 0.7;
-    margin-top: 16px;
+    line-height: 1.6;
+    color: var(--theme-foreground-muted);
+  }
+
+  @media (max-width: 900px) {
+    .treatment-scrolly {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      column-gap: 24px;
+    }
+
+    .treatment-step h2 {
+      font-size: 27px;
+    }
+
+    .treatment-stat {
+      font-size: 60px;
+    }
+
+    .treatment-legend {
+      column-gap: 12px;
+      row-gap: 10px;
+    }
+
+    .treatment-legend-item {
+      font-size: 13px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    #observablehq-main {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    .treatment-intro {
+      min-height: 75vh;
+      padding: 35px 0;
+    }
+
+    .treatment-intro-heading {
+      font-size: 30px;
+    }
+
+    .treatment-intro-description {
+      font-size: 16px;
+      margin-bottom: 35px;
+    }
+
+    .treatment-intro .treatment-legend {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .treatment-scrolly {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .treatment-story {
+      width: 100%;
+    }
+
+    .treatment-sticky {
+      order: -1;
+      position: sticky;
+      align-self: stretch;
+      top: 0;
+      height: auto;
+      min-height: 250px;
+      padding: 20px 0;
+      background: var(--theme-background);
+      z-index: 2;
+    }
+
+    .treatment-step {
+      min-height: 72vh;
+      padding: 25px 0;
+    }
+
+    .treatment-step h2 {
+      font-size: 27px;
+    }
+
+    .treatment-stat {
+      font-size: clamp(52px, 11vw, 72px);
+    }
+
+    .treatment-context {
+      font-size: 14px;
+    }
+
+    .treatment-legend {
+      margin-top: 18px;
+    }
+
+    .treatment-legend-item {
+      font-size: 12px;
+    }
+
+    .treatment-note {
+      font-size: 12px;
+    }
   }
 </style>
 
-## Q4: Among adults who have both a mental illness and a drug use disorder, how many receive treatment for both conditions, for only one, or for neither? 
-## The Treatment Gap
+## Who receives treatment for both conditions?
 
 ```js
-// Adults experiencing both conditions
-const bothConditions = data.filter(d =>
-  d.mental_illness === 1 &&
-  d.drug_use_disorder === 1
+const bothConditions = data.filter(
+  d => d.mental_illness === 1 && d.drug_use_disorder === 1
 );
 
-const totalBothConditions = d3.sum(bothConditions, d => d.survey_weight);
-
-// Sort everyone by the treatment they received
 function getTreatmentCategory(d) {
   const mental = d.mental_health_treatment;
   const drug = d.drug_treatment;
 
+  if (mental !== 0 && mental !== 1) return "Unspecified";
+  if (drug !== 0 && drug !== 1) return "Unspecified";
+
   if (mental === 1 && drug === 1) return "Both treatments";
-  if (mental === 1 && drug === 0) return "Mental health only";
-  if (mental === 0 && drug === 1) return "Drug treatment only";
-  if (mental === 0 && drug === 0) return "Neither";
-  return "Unspecified";
+  if (mental === 1) return "Mental health only";
+  if (drug === 1) return "Drug treatment only";
+
+  return "Neither";
 }
 
 const treatmentCategories = [
-  {category: "Both treatments", color: colors.both},
-  {category: "Mental health only", color: colors.mental},
-  {category: "Drug treatment only", color: colors.drug},
-  {category: "Neither", color: colors.neutral},
-  {category: "Unspecified", color: "#FFFFFF"}
+  {
+    category: "Both treatments",
+    color: colors.both
+  },
+  {
+    category: "Mental health only",
+    color: colors.mental
+  },
+  {
+    category: "Drug treatment only",
+    color: colors.drug
+  },
+  {
+    category: "Neither",
+    color: colors.neither
+  },
+  {
+    category: "Unspecified",
+    color: colors.neutral
+  }
 ];
 
-// Calculate percentages using survey weights
-const treatmentResults = treatmentCategories.map(group => {
+const totalBothWeight = d3.sum(
+  bothConditions,
+  d => d.survey_weight
+);
+
+const treatmentResults = treatmentCategories.map(d => {
   const weight = d3.sum(
-    bothConditions.filter(d => getTreatmentCategory(d) === group.category),
-    d => d.survey_weight
+    bothConditions.filter(
+      row => getTreatmentCategory(row) === d.category
+    ),
+    row => row.survey_weight
   );
 
   return {
-    ...group,
-    percent: weight / totalBothConditions * 100
+    ...d,
+    weight,
+    percent: totalBothWeight
+      ? weight / totalBothWeight * 100
+      : 0
   };
 });
 
-const bothTreatmentPercent = treatmentResults[0].percent;
-const mentalOnlyPercent = treatmentResults[1].percent;
-const drugOnlyPercent = treatmentResults[2].percent;
-const neitherPercent = treatmentResults[3].percent;
+const treatmentByCategory = Object.fromEntries(
+  treatmentResults.map(d => [d.category, d])
+);
+
+const bothTreatmentPercent =
+  treatmentByCategory["Both treatments"].percent;
+
+const mentalOnlyTreatmentPercent =
+  treatmentByCategory["Mental health only"].percent;
+
+const drugOnlyTreatmentPercent =
+  treatmentByCategory["Drug treatment only"].percent;
+
+const neitherTreatmentPercent =
+  treatmentByCategory["Neither"].percent;
+
+const unspecifiedTreatmentPercent =
+  treatmentByCategory["Unspecified"].percent;
 ```
 
 ```js
-// Build the stacked bar
-// Draw the treatment bar using the actual percentages
-const treatmentBar = d3.create("svg")
-  .attr("viewBox", "0 0 1000 70")
-  .attr("width", "100%")
-  .attr("height", 70)
-  .attr("role", "img")
-  .attr("aria-label", "Treatment received among adults with both conditions")
-  .node();
-
-// Figure out where each section starts
+// Calculate the position of each bar segment.
 let barPosition = 0;
 
 const treatmentBarData = treatmentResults.map(d => {
@@ -130,12 +405,21 @@ const treatmentBarData = treatmentResults.map(d => {
   };
 
   barPosition += d.percent;
+
   return result;
 });
 
-// Add the colored sections
-d3.select(treatmentBar)
-  .selectAll("rect")
+// Create the SVG bar.
+const treatmentBar = d3.create("svg")
+  .attr("viewBox", "0 0 1000 170")
+  .attr("role", "img")
+  .attr(
+    "aria-label",
+    "Treatment received among adults with both mental illness and a drug use disorder."
+  );
+
+const treatmentSegments = treatmentBar
+  .selectAll(".treatment-segment")
   .data(treatmentBarData)
   .join("rect")
   .attr("class", "treatment-segment")
@@ -143,178 +427,255 @@ d3.select(treatmentBar)
   .attr("x", d => d.start * 10)
   .attr("y", 0)
   .attr("width", d => d.percent * 10)
-  .attr("height", 70)
-  .attr("fill", d => d.color)
-  .attr("stroke", "#888")
-  .attr("stroke-width", 1);
+  .attr("height", 170)
+  .attr("fill", d => d.color);
 
+// Add labels to segments large enough to fit them.
+const treatmentBarLabels = treatmentBar
+  .selectAll(".treatment-bar-label")
+  .data(treatmentBarData.filter(d => d.percent >= 9))
+  .join("text")
+  .attr("class", "treatment-bar-label")
+  .attr("x", d => (d.start + d.percent / 2) * 10)
+  .attr("y", 85)
+  .attr("text-anchor", "middle")
+  .attr("dominant-baseline", "middle")
+  .text(d => `${d.percent.toFixed(1)}%`);
+
+const treatmentSvg = treatmentBar.node();
+```
+
+```js
 const treatmentChart = html`
   <div class="treatment-visual">
-    ${treatmentBar}
+
+    <div class="treatment-context">
+      Among adults with both conditions
+    </div>
+
+    ${treatmentSvg}
 
     <div class="treatment-axis">
       <span>0%</span>
+      <span>25%</span>
+      <span>50%</span>
+      <span>75%</span>
       <span>100%</span>
     </div>
 
     <div class="treatment-legend">
       ${treatmentResults.map(d => html`
-        <div class="treatment-legend-item" data-category="${d.category}">
-          <span class="treatment-swatch"
-            style="background: ${d.color};"></span>
-          <span>${d.category}</span>
-          <strong>${d.percent.toFixed(1)}%</strong>
+        <div
+          class="treatment-legend-item"
+          data-category="${d.category}"
+        >
+          <span
+            class="treatment-swatch"
+            style="background: ${d.color}"
+          ></span>
+          <span>
+            ${d.category}: ${d.percent.toFixed(1)}%
+          </span>
         </div>
       `)}
     </div>
 
-    <p class="chart-caption">
-      Among U.S. adults experiencing both conditions, 2025.
+    <div class="treatment-note">
       Percentages are survey-weighted.
-    </p>
+      Missing treatment responses are shown separately
+      rather than counted as receiving no treatment.
+    </div>
+
   </div>
 `;
 ```
 
 ```js
-// Text that appears as we scroll
+// First screen: full-width text and bar.
+const treatmentIntro = html`
+  <section class="treatment-intro">
+
+    <h2 class="treatment-intro-heading">
+      Having both conditions does not mean
+      receiving treatment for both.
+    </h2>
+
+    <p class="treatment-intro-description">
+      Here's how treatment breaks down among adults
+      who experienced both conditions.
+    </p>
+
+    ${treatmentChart.cloneNode(true)}
+
+  </section>
+`;
+```
+
+${treatmentIntro}
+
+```js
+// Remaining screens: text on the left, chart on the right.
 const treatmentNarrative = html`
-  <div class="narrative">
+  <div class="treatment-story">
 
-    <div class="step" data-stage="0">
-      <h2>What happens when someone experiences both conditions?</h2>
-      <p>How many receive treatment for both, only one, or neither?</p>
-    </div>
-
-    <div class="step" data-stage="1">
-      <div class="statistic" style="color: ${colors.both}">
+    <div class="treatment-step" data-stage="1">
+      <div
+        class="treatment-stat"
+        style="color: ${colors.both}"
+      >
         ${bothTreatmentPercent.toFixed(1)}%
       </div>
-      <h2>Received treatment for both conditions.</h2>
+
+      <h2>
+        received treatment for both conditions.
+      </h2>
     </div>
 
-    <div class="step" data-stage="2">
-      <div class="statistic" style="color: ${colors.mental}">
-        ${mentalOnlyPercent.toFixed(1)}%
+    <div class="treatment-step" data-stage="2">
+      <div
+        class="treatment-stat"
+        style="color: ${colors.mental}"
+      >
+        ${mentalOnlyTreatmentPercent.toFixed(1)}%
       </div>
-      <h2>Received mental health treatment only.</h2>
-      <p>Compared with ${drugOnlyPercent.toFixed(1)}% who received drug treatment only.</p>
+
+      <h2>
+        received mental health treatment only.
+      </h2>
     </div>
 
-    <div class="step" data-stage="3">
-      <div class="statistic" style="color: ${colors.text}">
-        ${neitherPercent.toFixed(1)}%
+    <div class="treatment-step" data-stage="3">
+      <div
+        class="treatment-stat"
+        style="color: ${colors.drug}"
+      >
+        ${drugOnlyTreatmentPercent.toFixed(1)}%
       </div>
-      <h2>Received neither type of treatment.</h2>
+
+      <h2>
+        received drug use treatment only.
+      </h2>
     </div>
 
-    <div class="step" data-stage="4">
-      <h2>Most adults with both conditions did not receive both types of treatment.</h2>
-      <p>Here's how treatment was distributed across the population.</p>
+    <div class="treatment-step" data-stage="4">
+      <div
+        class="treatment-stat"
+        style="color: ${colors.neither}"
+      >
+        ${neitherTreatmentPercent.toFixed(1)}%
+      </div>
+
+      <h2>
+        received neither type of treatment.
+      </h2>
+    </div>
+
+    <div class="treatment-step" data-stage="5">
+      <div
+        class="treatment-stat"
+        style="color: ${colors.both}"
+      >
+        ${bothTreatmentPercent.toFixed(1)}%
+      </div>
+
+      <h2>
+        received treatment for both conditions.
+      </h2>
+
+      <p>
+        The remaining adults received only one type of treatment,
+        neither type, or had unspecified responses.
+      </p>
     </div>
 
   </div>
 `;
 ```
 
-<style>
-  .treatment-bar {
-    display: flex;
-    height: 72px;
-    width: 100%;
-    overflow: hidden;
-  }
+```js
+const treatmentSection = html`
+  <div class="treatment-scrolly">
 
-  .treatment-segment {
-    box-sizing: border-box;
-    height: 100%;
-    border-right: 2px solid var(--theme-background);
-    transition: opacity 400ms ease;
-  }
+    ${treatmentNarrative}
 
-  .treatment-axis {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    color: var(--theme-foreground-muted);
-    margin-top: 8px;
-  }
+    <div class="treatment-sticky">
+      ${treatmentChart}
+    </div>
 
-  .treatment-legend {
-    display: grid;
-    gap: 12px;
-    margin-top: 24px;
-  }
-
-  .treatment-legend-item {
-    display: grid;
-    grid-template-columns: 12px minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-    transition: opacity 400ms ease;
-  }
-
-  .treatment-swatch {
-    width: 12px;
-    height: 12px;
-    border: 1px solid #888;
-    box-sizing: border-box;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .treatment-segment,
-    .treatment-legend-item {
-      transition: none;
-    }
-  }
-</style>
-
-<div class="scrolly">
-  ${treatmentNarrative}
-
-  <div class="sticky-chart">
-    ${treatmentChart}
   </div>
-</div>
+`;
+```
+
+${treatmentSection}
 
 ```js
-// Highlight the relevant categories as we scroll
-const treatmentSteps = treatmentNarrative.querySelectorAll(".step");
-const treatmentSegments = treatmentChart.querySelectorAll(".treatment-segment");
-const treatmentLegendItems = treatmentChart.querySelectorAll(".treatment-legend-item");
+const treatmentSteps =
+  treatmentNarrative.querySelectorAll(".treatment-step");
 
-const treatmentHighlights = [
-  [],
-  ["Both treatments"],
-  ["Mental health only", "Drug treatment only"],
-  ["Neither"],
-  []
+const legendItems = d3.select(treatmentChart)
+  .selectAll(".treatment-legend-item");
+
+const treatmentHighlight = [
+  null,
+  "Both treatments",
+  "Mental health only",
+  "Drug treatment only",
+  "Neither",
+  "Both treatments"
 ];
 
 function renderTreatment(stageIndex) {
-  const highlighted = treatmentHighlights[stageIndex];
-  const showAll = highlighted.length === 0;
+  const selected = treatmentHighlight[stageIndex];
 
-  treatmentSegments.forEach(segment => {
-    segment.style.opacity =
-      showAll || highlighted.includes(segment.dataset.category) ? "1" : "0.25";
-  });
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
 
-  treatmentLegendItems.forEach(item => {
-    item.style.opacity =
-      showAll || highlighted.includes(item.dataset.category) ? "1" : "0.4";
-  });
+  const duration = reducedMotion ? 0 : 600;
+
+  treatmentSegments
+    .interrupt()
+    .transition()
+    .duration(duration)
+    .ease(d3.easeCubicInOut)
+    .attr("opacity", d =>
+      !selected || d.category === selected ? 1 : 0.2
+    );
+
+  treatmentBarLabels
+    .interrupt()
+    .transition()
+    .duration(duration)
+    .attr("opacity", d =>
+      !selected || d.category === selected ? 1 : 0.2
+    );
+
+  legendItems
+    .interrupt()
+    .transition()
+    .duration(duration)
+    .style("opacity", function() {
+      const category = this.getAttribute("data-category");
+
+      return !selected || category === selected
+        ? 1
+        : 0.3;
+    });
 }
+```
 
+```js
 function getTreatmentStage() {
   const screenMiddle = window.innerHeight / 2;
-  let closestStage = 0;
+
+  let closestStage = 1;
   let closestDistance = Infinity;
 
   treatmentSteps.forEach(step => {
     const bounds = step.getBoundingClientRect();
-    const distance = Math.abs(bounds.top + bounds.height / 2 - screenMiddle);
+    const middle = bounds.top + bounds.height / 2;
+
+    const distance = Math.abs(middle - screenMiddle);
 
     if (distance < closestDistance) {
       closestDistance = distance;
@@ -325,32 +686,52 @@ function getTreatmentStage() {
   return closestStage;
 }
 
-let activeTreatmentStage = 0;
+let activeTreatmentStage = -1;
 
 function handleTreatmentScroll() {
-  if (!treatmentNarrative.isConnected || !treatmentChart.isConnected) return;
+  if (!treatmentSection.isConnected) return;
 
   const nextStage = getTreatmentStage();
 
   if (nextStage !== activeTreatmentStage) {
     activeTreatmentStage = nextStage;
-    renderTreatment(activeTreatmentStage);
+    renderTreatment(nextStage);
   }
 }
 
-renderTreatment(0);
+window.addEventListener(
+  "scroll",
+  handleTreatmentScroll,
+  {passive: true}
+);
 
-window.addEventListener("scroll", handleTreatmentScroll, {passive: true});
-window.addEventListener("resize", handleTreatmentScroll);
+window.addEventListener(
+  "resize",
+  handleTreatmentScroll
+);
 
-const treatmentFrame = requestAnimationFrame(handleTreatmentScroll);
+const treatmentFrame =
+  requestAnimationFrame(handleTreatmentScroll);
 
 invalidation.then(() => {
   cancelAnimationFrame(treatmentFrame);
-  window.removeEventListener("scroll", handleTreatmentScroll);
-  window.removeEventListener("resize", handleTreatmentScroll);
+
+  treatmentSegments.interrupt();
+  treatmentBarLabels.interrupt();
+  legendItems.interrupt();
+
+  window.removeEventListener(
+    "scroll",
+    handleTreatmentScroll
+  );
+
+  window.removeEventListener(
+    "resize",
+    handleTreatmentScroll
+  );
 });
 ```
 
-*Source: SAMHSA, 2025 National Survey on Drug Use and Health. Treatment refers to care reported in the past year. Receiving both types of treatment does not necessarily mean receiving coordinated care. Unspecified treatment responses are shown separately.*
-
+<div class="treatment-source">
+Source: SAMHSA, 2025 National Survey on Drug Use and Health (NSDUH). Estimates are survey-weighted for U.S. adults aged 18 and older. Receiving both treatment types does not necessarily mean treatment was integrated or simultaneous.
+</div>

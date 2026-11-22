@@ -1,6 +1,7 @@
 ---
 title: National Overdose Deaths
 toc: false
+theme: [air, wide]
 ---
 
 # U.S. drug overdose deaths, 2015–2026
