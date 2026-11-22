@@ -1,5 +1,6 @@
 ---
 toc: false
+theme: [air, wide]
 ---
 
 # Home Page of Final Project

@@ -24,11 +24,11 @@ const fmtNum = d3.format(",");
 ```
 
 ```js
-// Light/dark tokens (Framework's built-in `dark` updates when the theme changes).
+// Shared project palette (light theme), matching Dashboards 1 and 2.
 const ink = {
-  series: dark ? "#3987e5" : "#2a78d6",
-  band: dark ? "#2a2a28" : "#f0efec",
-  muted: dark ? "#c3c2b7" : "#52514e"
+  series: "#2468A2",
+  band: "#F0F1F3",
+  muted: "#777D85"
 };
 ```
 
