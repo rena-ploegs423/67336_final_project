@@ -32,8 +32,8 @@ const ink = {
 ```
 
 <div class="card">
-  <h2>Drug overdose deaths in the U.S., 12-month rolling total</h2>
-  <h3>Peaked at ${fmtNum(peak.deaths)} (12 months ending ${fmtMonthLocal(peak.date)}); latest ${fmtNum(last.deaths)} (ending ${fmtMonthLocal(last.date)})</h3>
+  <h1 style="max-width: none;">Drug overdose deaths in the U.S., 12-month rolling total</h1>
+  <h2 style="max-width: none;">Figures from ${fmtMonthLocal(provisionalStart)} onward (dashed) are provisional and still being updated as death records come in</h2>
   ${resize((width) => overdoseChart(width))}
 </div>
 
@@ -45,21 +45,17 @@ function overdoseChart(width) {
     height: 420,
     marginLeft: 56,
     marginRight: 24,
-    marginTop: 28,
+    marginTop: 16,
     x: {type: "time", label: null, ticks: d3.timeYear.every(1), tickFormat: "%Y", domain: [data[0].date, xEnd]},
     y: {
       domain: [0, 125000],          // y-axis starts at zero
       grid: true,
-      label: "Deaths (12-month total)",
+      label: null,
       tickFormat: (d) => (d === 0 ? "0" : `${d / 1000}k`)
     },
     marks: [
       // Shaded provisional period
       Plot.rectX([{x1: provisionalStart, x2: xEnd}], {x1: "x1", x2: "x2", fill: ink.band}),
-      Plot.text([{x: xEnd}], {
-        x: "x", frameAnchor: "top", dy: -14, textAnchor: "end", lineAnchor: "bottom",
-        text: () => "Provisional (last 12 mo.): may change ↓", fill: ink.muted, fontWeight: 600
-      }),
       Plot.ruleY([0]),
 
       // Final-ish data: solid line
@@ -90,6 +86,8 @@ function overdoseChart(width) {
 ```
 
 <small class="muted">* Data from ${fmtMonthLocal(provisionalStart)} onward is provisional and may be revised as more death records are reported. Source: CDC National Center for Health Statistics, Vital Statistics Rapid Release, Provisional Drug Overdose Death Counts.</small>
+
+To show how serious drug-related harm is in the U.S., our dashboard opens with a line chart of national overdose deaths from 2015 to 2026. For visual encoding, years are on the x-axis and deaths on the y-axis. Position is the channel viewers judge most accurately, and a line shows change over time at a glance. Because deaths are ratio data with a true zero, the y-axis starts at zero so changes are not overstated. Provisional figures from July 2025 onward are drawn as a dashed line on a shaded background. To keep the data-ink ratio high and avoid chart junk, we use a single hue, faint gridlines, no legend, and no decorative effects, and exact values appear in a hover tooltip.
 
 <details>
 <summary>View data table</summary>
