@@ -3,7 +3,9 @@ title: Introduction
 toc: false
 ---
 
-# Introduction
+# Drug Addiction in America
+
+<img src="./image/addiction.jpg" alt="A glass of liquor on a dark wooden table surrounded by pills, syringes, a medicine vial, cigarettes and an ashtray" style="width: 100%; max-width: 640px; border-radius: 8px; margin-top: 0.75rem;">
 
 Drug overdoses are one of the most serious public health crises in the United States. According to provisional counts from the CDC, more than 111,000 people died from a drug overdose in the 12 months ending June 2023. That was the highest toll on record, and roughly double the yearly total in 2015. Although Deaths have fallen since then, tens of thousands of Americans still die from overdoses each year, and many of those deaths are preventable. This dashboard looks at how the crisis has changed over time and examines how drug use disorders, mental illness and access to treatment are connected. 
 
@@ -32,8 +34,8 @@ const ink = {
 };
 ```
 
-<div class="card">
-  <h1 style="max-width: none;">Drug overdose deaths in the U.S., 12-month rolling total</h1>
+<div class="card" style="max-width: 640px; box-sizing: border-box;">
+  <h1 style="max-width: none; font-size: 1.2rem;">Drug overdose deaths in the U.S., 12-month rolling total</h1>
   <h2 style="max-width: none;">Figures from ${fmtMonthLocal(provisionalStart)} onward (dashed) are provisional and still being updated as death records come in</h2>
   ${resize((width) => overdoseChart(width))}
 </div>
@@ -43,7 +45,7 @@ function overdoseChart(width) {
   const xEnd = d3.timeMonth.offset(last.date, 1);
   return Plot.plot({
     width,
-    height: 420,
+    height: 340,
     marginLeft: 56,
     marginRight: 24,
     marginTop: 16,
