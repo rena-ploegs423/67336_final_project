@@ -1,4 +1,4 @@
-# NSDUH Data Cleaning
+# 2025 NSDUH Data Cleaning
 
 ## Raw Data
 ```js
@@ -32,14 +32,14 @@ const selected = raw.map(d => ({
   respondent_id: d.QUESTID2,
   age_category: d.CATAGE,
 
-  // Mental illness and drug use disorder indicators
-  mental_illness: d.AMIPY,
+  // Past-year mental illness and drug use disorder indicators
+  mental_illness: d.AMI5YR,
   drug_use_disorder: d.UD5ILLANY,
 
-  // Treatment indicators (definitions to be verified)
-  mental_health_treatment: d.MHTRTPY2,
-  drug_treatment: d.SUTRTDRGPY2,
-  drug_alcohol_treatment: d.SUTRTDRALPY2,
+  // Past-year treatment indicators
+  mental_health_treatment: d.MHTRTPY3,
+  drug_treatment: d.SUTRTDRGPY3,
+  drug_alcohol_treatment: d.SUTRTDRALPY3,
 
   // Survey weight and sampling design variables
   survey_weight: d.ANALWT2_C,
@@ -217,10 +217,11 @@ display(`Zero or negative survey weights: ${invalidWeights}`);
 ### Filter to Adult Respondents
 
 ```js
-// Keep respondents with a valid adult mental illness indicator
-// Exclude adolescents, for whom this measure is not available
+// Respondents 18 and older
 const adults = selected.filter(d =>
-  d.mental_illness === 0 || d.mental_illness === 1
+  d.age_category === 2 ||
+  d.age_category === 3 ||
+  d.age_category === 4
 );
 
 // Compare the original and adult analysis populations
@@ -251,10 +252,11 @@ function cleanBinary(code) {
 }
 
 // Convert drug treatment codes using the codebook definitions
+// Convert drug treatment codes using the 2025 codebook
 function cleanDrugTreatment(code) {
   if (code === 1) return "Yes";
-  if (code === 0) return "No or unspecified";
-  return "Unknown";
+  if (code === 0) return "No";
+  return "Unspecified";
 }
 ```
 
@@ -320,7 +322,7 @@ display(Inputs.button("Download Cleaned CSV", {
     link.href = URL.createObjectURL(
       new Blob([cleanedCSV], {type: "text/csv"})
     );
-    link.download = "nsduh_2024_cleaned.csv";
+    link.download = "nsduh_2025_cleaned.csv";
     link.click();
   }
 }));
